@@ -73,6 +73,19 @@ def _parse_summary_sections(summary):
     return sections_html
 
 
+def _split_overview_line(text):
+    """Split a short generated overview line into a heading and body."""
+    text = text.strip()
+    for separator in ("：", ":", " - ", " — "):
+        if separator in text:
+            title, body = text.split(separator, 1)
+            title = title.strip(" -•*0123456789.、)")
+            body = body.strip()
+            if title and body and len(title) <= 36:
+                return title, body
+    return "", text
+
+
 def _render_card(project):
     """渲染单个项目卡片"""
     name = _escape_html(project.get("name", ""))
@@ -166,46 +179,92 @@ def _render_overview(overview_text):
         trends_content = trends_match.group(1).strip()
         # 按段落拆分（空行分隔）
         paragraphs = [p.strip() for p in trends_content.split("\n\n") if p.strip()]
-        for p in paragraphs:
+        for idx, p in enumerate(paragraphs, 1):
             # 清理开头的 - 或数字前缀
             p = re.sub(r'^[-•]\s*', '', p)
             p = re.sub(r'^\d+[.、]\s*', '', p)
-            trends_html += f'<div class="trend-item">{_escape_html(p)}</div>'
+            title, body = _split_overview_line(p)
+            if title:
+                trends_html += f'''
+                <article class="trend-item">
+                    <span class="overview-number">{idx:02d}</span>
+                    <div>
+                        <h4>{_escape_html(title)}</h4>
+                        <p>{_escape_html(body)}</p>
+                    </div>
+                </article>'''
+            else:
+                trends_html += f'''
+                <article class="trend-item">
+                    <span class="overview-number">{idx:02d}</span>
+                    <p>{_escape_html(body)}</p>
+                </article>'''
 
     if picks_match:
         picks_content = picks_match.group(1).strip()
         # 按行拆分精选推荐
         lines = [l.strip() for l in picks_content.split("\n") if l.strip()]
-        for line in lines:
+        for idx, line in enumerate(lines, 1):
             # 清理前缀
             line = re.sub(r'^[-•*\d.、)\s]+', '', line)
             if not line:
                 continue
-            picks_html += f'<div class="pick-item">{_escape_html(line)}</div>'
+            title, body = _split_overview_line(line)
+            if title:
+                picks_html += f'''
+                <article class="pick-item">
+                    <span class="pick-rank">{idx}</span>
+                    <div>
+                        <h4>{_escape_html(title)}</h4>
+                        <p>{_escape_html(body)}</p>
+                    </div>
+                </article>'''
+            else:
+                picks_html += f'''
+                <article class="pick-item">
+                    <span class="pick-rank">{idx}</span>
+                    <p>{_escape_html(body)}</p>
+                </article>'''
 
     # 如果解析失败，回退为纯文本
     if not trends_html and not picks_html:
-        trends_html = f'<div class="trend-item">{_escape_html(overview_text)}</div>'
+        trends_html = f'''
+        <article class="trend-item">
+            <span class="overview-number">01</span>
+            <p>{_escape_html(overview_text)}</p>
+        </article>'''
 
     trends_section = ""
     if trends_html:
         trends_section = f'''
-        <div class="overview-part">
-            <h3 class="overview-part-title">趋势综述</h3>
+        <div class="overview-part overview-trends">
+            <div class="overview-part-heading">
+                <span class="overview-kicker">Trends</span>
+                <h3 class="overview-part-title">趋势综述</h3>
+            </div>
             <div class="trends-list">{trends_html}</div>
         </div>'''
 
     picks_section = ""
     if picks_html:
         picks_section = f'''
-        <div class="overview-part">
-            <h3 class="overview-part-title">精选推荐</h3>
+        <div class="overview-part overview-picks">
+            <div class="overview-part-heading">
+                <span class="overview-kicker">Picks</span>
+                <h3 class="overview-part-title">精选推荐</h3>
+            </div>
             <div class="picks-list">{picks_html}</div>
         </div>'''
 
     return f'''
     <section class="overview-section" id="section-overview">
-        <h2 class="section-title">📋 本周概览</h2>
+        <div class="overview-header">
+            <div>
+                <span class="overview-eyebrow">Weekly Brief</span>
+                <h2>本周概览</h2>
+            </div>
+            <span class="overview-date">{datetime.now().strftime("%m.%d")}</span>
+        </div>
         <div class="overview-content">
             {trends_section}
             {picks_section}
@@ -329,53 +388,147 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             border-color: #24292f;
         }}
         .overview-section {{
-            background: white;
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
             border-radius: 12px;
-            padding: 28px;
+            padding: 30px;
             margin-bottom: 40px;
             border: 1px solid #d0d7de;
+            box-shadow: 0 10px 30px rgba(27, 31, 36, 0.06);
+        }}
+        .overview-section::before {{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #0969da, #1a7f37, #bc4c00);
+        }}
+        .overview-header {{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 24px;
+        }}
+        .overview-eyebrow,
+        .overview-kicker {{
+            display: inline-block;
+            color: #0969da;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }}
+        .overview-header h2 {{
+            margin-top: 3px;
+            font-size: 26px;
+            line-height: 1.25;
+            color: #24292f;
+        }}
+        .overview-date {{
+            min-width: 58px;
+            padding: 8px 10px;
+            border: 1px solid #d0d7de;
+            border-radius: 8px;
+            color: #57606a;
+            background: #f6f8fa;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
         }}
         .overview-content {{
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 28px;
+            grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+            gap: 18px;
         }}
         .overview-part {{
+            min-width: 0;
+            border: 1px solid #d8dee4;
+            border-radius: 10px;
+            background: #fbfbfc;
+            padding: 18px;
+        }}
+        .overview-part-heading {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
         }}
         .overview-part-title {{
             font-size: 16px;
             font-weight: 600;
             color: #24292f;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
+            margin: 0;
         }}
         .trends-list {{
+            display: grid;
+            gap: 12px;
         }}
         .trend-item {{
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr);
+            gap: 12px;
             font-size: 14px;
             color: #424a53;
             line-height: 1.7;
-            margin-bottom: 12px;
-            padding-left: 14px;
-            border-left: 3px solid #58a6ff;
+            padding: 14px;
+            border: 1px solid #d8dee4;
+            border-radius: 8px;
+            background: white;
         }}
-        .trend-item:last-child {{
-            margin-bottom: 0;
+        .trend-item h4,
+        .pick-item h4 {{
+            margin: 0 0 4px;
+            color: #24292f;
+            font-size: 14px;
+            line-height: 1.35;
+        }}
+        .trend-item p,
+        .pick-item p {{
+            margin: 0;
+        }}
+        .overview-number {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #ddf4ff;
+            color: #0969da;
+            font-size: 12px;
+            font-weight: 700;
         }}
         .picks-list {{
+            display: grid;
+            gap: 10px;
         }}
         .pick-item {{
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            gap: 10px;
             font-size: 14px;
             color: #424a53;
-            line-height: 1.7;
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            background: #f6f8fa;
-            border-radius: 6px;
+            line-height: 1.6;
+            padding: 12px;
+            background: white;
+            border: 1px solid #d8dee4;
+            border-radius: 8px;
         }}
-        .pick-item:last-child {{
-            margin-bottom: 0;
+        .pick-rank {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: #dafbe1;
+            color: #1a7f37;
+            font-size: 12px;
+            font-weight: 700;
         }}
         .section {{
             margin-bottom: 40px;
@@ -542,11 +695,39 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             font-size: 13px;
         }}
         @media (max-width: 768px) {{
+            .container {{
+                padding: 12px;
+            }}
             .card-grid {{
                 grid-template-columns: 1fr;
             }}
+            .overview-section {{
+                padding: 22px 16px;
+                border-radius: 10px;
+            }}
+            .overview-header {{
+                margin-bottom: 18px;
+            }}
+            .overview-header h2 {{
+                font-size: 22px;
+            }}
             .overview-content {{
                 grid-template-columns: 1fr;
+                gap: 14px;
+            }}
+            .overview-part {{
+                padding: 14px;
+            }}
+            .trend-item {{
+                grid-template-columns: 34px minmax(0, 1fr);
+                padding: 12px;
+            }}
+            .overview-number {{
+                width: 30px;
+                height: 30px;
+            }}
+            .pick-item {{
+                padding: 11px;
             }}
             header h1 {{ font-size: 22px; }}
         }}
