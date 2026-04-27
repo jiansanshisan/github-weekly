@@ -256,20 +256,35 @@ def _render_overview(overview_text):
             <div class="picks-list">{picks_html}</div>
         </div>'''
 
+    picks_block = ""
+    if picks_section:
+        picks_block = f'''
+    <section class="picks-section" id="section-picks">
+        <div class="picks-header">
+            <div>
+                <span class="overview-eyebrow">Editor's Picks</span>
+                <h2>精选推荐</h2>
+            </div>
+        </div>
+        <div class="overview-content picks-content">
+            {picks_section}
+        </div>
+    </section>'''
+
     return f'''
     <section class="overview-section" id="section-overview">
         <div class="overview-header">
             <div>
                 <span class="overview-eyebrow">Weekly Brief</span>
-                <h2>本周概览</h2>
+                <h2>本周趋势概览</h2>
             </div>
             <span class="overview-date">{datetime.now().strftime("%m.%d")}</span>
         </div>
         <div class="overview-content">
             {trends_section}
-            {picks_section}
         </div>
-    </section>'''
+    </section>
+    {picks_block}'''
 
 
 def render_html(projects_by_source, output_path, date_str, overview=None):
@@ -293,6 +308,8 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
         sections_html += overview_html
         total_count += 0  # 总览不计入项目数
         nav_items += '<a href="#section-overview" class="nav-link">本周概览</a>'
+        if 'id="section-picks"' in overview_html:
+            nav_items += '<a href="#section-picks" class="nav-link">精选推荐</a>'
 
     for source, title in source_titles.items():
         projects = projects_by_source.get(source, [])
@@ -406,12 +423,34 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             height: 5px;
             background: linear-gradient(90deg, #0969da, #1a7f37, #bc4c00);
         }}
+        .picks-section {{
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #d0d7de;
+            box-shadow: 0 10px 30px rgba(27, 31, 36, 0.06);
+        }}
+        .picks-section::before {{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #1a7f37, #0969da);
+        }}
         .overview-header {{
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
             gap: 18px;
             margin-bottom: 24px;
+        }}
+        .picks-header {{
+            margin-bottom: 18px;
         }}
         .overview-eyebrow,
         .overview-kicker {{
@@ -421,7 +460,8 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             font-weight: 700;
             text-transform: uppercase;
         }}
-        .overview-header h2 {{
+        .overview-header h2,
+        .picks-header h2 {{
             margin-top: 3px;
             font-size: 26px;
             line-height: 1.25;
@@ -442,6 +482,18 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             display: grid;
             grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
             gap: 18px;
+        }}
+        .overview-section .overview-content,
+        .picks-content {{
+            grid-template-columns: 1fr;
+        }}
+        .picks-content .overview-part {{
+            background: transparent;
+            border: 0;
+            padding: 0;
+        }}
+        .picks-content .overview-part-heading {{
+            display: none;
         }}
         .overview-part {{
             min-width: 0;
@@ -504,6 +556,7 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
         }}
         .picks-list {{
             display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
         }}
         .pick-item {{
@@ -701,7 +754,8 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             .card-grid {{
                 grid-template-columns: 1fr;
             }}
-            .overview-section {{
+            .overview-section,
+            .picks-section {{
                 padding: 22px 16px;
                 border-radius: 10px;
             }}
@@ -711,9 +765,15 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             .overview-header h2 {{
                 font-size: 22px;
             }}
+            .picks-header h2 {{
+                font-size: 22px;
+            }}
             .overview-content {{
                 grid-template-columns: 1fr;
                 gap: 14px;
+            }}
+            .picks-list {{
+                grid-template-columns: 1fr;
             }}
             .overview-part {{
                 padding: 14px;
