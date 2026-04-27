@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+
+# Secrets
+config.yaml
+
+# Generated output
+output/
