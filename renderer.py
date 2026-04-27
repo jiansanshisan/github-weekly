@@ -90,6 +90,7 @@ def _render_card(project):
     """渲染单个项目卡片"""
     name = _escape_html(project.get("name", ""))
     url = project.get("url", "#")
+    url_attr = _escape_html(url)
     summary = project.get("summary", project.get("description", ""))
     language = _escape_html(project.get("language", ""))
     stars = project.get("stars", 0)
@@ -139,11 +140,17 @@ def _render_card(project):
     source_color = source_colors.get(source, "#666")
 
     return f'''
-    <div class="card" data-source="{source}">
+    <div class="card" data-source="{source}" data-bookmark-key="{url_attr}">
         <div class="card-header">
             <div class="card-title-row">
-                <a href="{url}" target="_blank" class="card-title">{name}</a>
-                <span class="source-badge" style="background-color:{source_color}">{source_detail}</span>
+                <a href="{url_attr}" target="_blank" class="card-title">{name}</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:{source_color}">{source_detail}</span>
+                </div>
             </div>
             <div class="card-meta">
                 <span class="lang-dot" style="background-color:{lang_color}"></span>
@@ -155,7 +162,7 @@ def _render_card(project):
             {summary_html}
         </div>
         <div class="card-footer">
-            <a href="{url}" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            <a href="{url_attr}" target="_blank" class="repo-link">&#128279; 查看项目</a>
             {community_html}
         </div>
         {release_html}
@@ -607,13 +614,24 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             border-radius: 10px;
             padding: 20px;
             border: 1px solid #d0d7de;
-            transition: box-shadow 0.2s, transform 0.15s;
+            transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, background-color 0.2s;
             display: flex;
             flex-direction: column;
+        }}
+        .card.is-marked {{
+            background: #fff8dc;
+            border-color: #d4a72c;
+            box-shadow: 0 4px 14px rgba(212, 167, 44, 0.18);
+        }}
+        .card.is-marked .card-title {{
+            color: #8250df;
         }}
         .card:hover {{
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transform: translateY(-2px);
+        }}
+        .card.is-marked:hover {{
+            box-shadow: 0 6px 18px rgba(212, 167, 44, 0.24);
         }}
         .card-header {{
             margin-bottom: 12px;
@@ -624,6 +642,12 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             align-items: flex-start;
             gap: 8px;
             margin-bottom: 6px;
+        }}
+        .card-actions {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
         }}
         .card-title {{
             font-size: 16px;
@@ -642,6 +666,36 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             color: white;
             white-space: nowrap;
             flex-shrink: 0;
+        }}
+        .mark-button {{
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 25px;
+            padding: 0 8px;
+            border: 1px solid #d0d7de;
+            border-radius: 13px;
+            background: #ffffff;
+            color: #57606a;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 1;
+            white-space: nowrap;
+        }}
+        .mark-button:hover {{
+            border-color: #d4a72c;
+            color: #8250df;
+            background: #fff8dc;
+        }}
+        .mark-button[aria-pressed="true"] {{
+            border-color: #d4a72c;
+            background: #d4a72c;
+            color: #24292f;
+            font-weight: 700;
+        }}
+        .mark-icon {{
+            font-size: 14px;
+            line-height: 1;
         }}
         .card-meta {{
             display: flex;
@@ -809,6 +863,54 @@ def render_html(projects_by_source, output_path, date_str, overview=None):
             <p>由 GitHub Weekly Report 系统自动生成 | 数据来源于 GitHub / HackerNews / Reddit</p>
         </footer>
     </div>
+    <script>
+        (function () {{
+            const storageKey = "github-weekly-marked-projects";
+
+            function readMarked() {{
+                try {{
+                    return new Set(JSON.parse(localStorage.getItem(storageKey) || "[]"));
+                }} catch (error) {{
+                    return new Set();
+                }}
+            }}
+
+            function writeMarked(marked) {{
+                localStorage.setItem(storageKey, JSON.stringify(Array.from(marked)));
+            }}
+
+            function updateCard(card, button, isMarked) {{
+                card.classList.toggle("is-marked", isMarked);
+                button.setAttribute("aria-pressed", isMarked ? "true" : "false");
+                button.title = isMarked ? "取消标记" : "标记这个项目";
+                button.setAttribute("aria-label", isMarked ? "取消标记这个项目" : "标记这个项目");
+                button.querySelector(".mark-icon").textContent = isMarked ? "★" : "☆";
+                button.querySelector(".mark-text").textContent = isMarked ? "已标记" : "标记";
+            }}
+
+            const marked = readMarked();
+            document.querySelectorAll(".card[data-bookmark-key]").forEach((card) => {{
+                const key = card.dataset.bookmarkKey;
+                const button = card.querySelector(".mark-button");
+                if (!key || !button) {{
+                    return;
+                }}
+
+                updateCard(card, button, marked.has(key));
+
+                button.addEventListener("click", () => {{
+                    const nextMarked = !marked.has(key);
+                    if (nextMarked) {{
+                        marked.add(key);
+                    }} else {{
+                        marked.delete(key);
+                    }}
+                    writeMarked(marked);
+                    updateCard(card, button, nextMarked);
+                }});
+            }});
+        }})();
+    </script>
 </body>
 </html>'''
 
