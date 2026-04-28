@@ -7,5 +7,5 @@ __pycache__/
 # Secrets
 config.yaml
 
-# Generated output
-output/
+# Local render previews
+output/_preview*.html
