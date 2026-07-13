@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 热点周报 - 2026-07-13</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f6f8fa;
+            color: #24292f;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: linear-gradient(135deg, #24292f 0%, #2d333b 100%);
+            color: white;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        header .subtitle {
+            color: #8b949e;
+            font-size: 15px;
+        }
+        header .stats {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #58a6ff;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 3px 12px;
+            border-radius: 12px;
+        }
+        nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .nav-link {
+            padding: 6px 14px;
+            background: #f6f8fa;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #24292f;
+            font-size: 13px;
+            border: 1px solid #d0d7de;
+            transition: all 0.2s;
+        }
+        .nav-link:hover {
+            background: #24292f;
+            color: white;
+            border-color: #24292f;
+        }
+        .overview-section {
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #d0d7de;
+            box-shadow: 0 10px 30px rgba(27, 31, 36, 0.06);
+        }
+        .overview-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #0969da, #1a7f37, #bc4c00);
+        }
+        .picks-section {
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #d0d7de;
+            box-shadow: 0 10px 30px rgba(27, 31, 36, 0.06);
+        }
+        .picks-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #1a7f37, #0969da);
+        }
+        .overview-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+        .picks-header {
+            margin-bottom: 18px;
+        }
+        .overview-eyebrow,
+        .overview-kicker {
+            display: inline-block;
+            color: #0969da;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .overview-header h2,
+        .picks-header h2 {
+            margin-top: 3px;
+            font-size: 26px;
+            line-height: 1.25;
+            color: #24292f;
+        }
+        .overview-date {
+            min-width: 58px;
+            padding: 8px 10px;
+            border: 1px solid #d0d7de;
+            border-radius: 8px;
+            color: #57606a;
+            background: #f6f8fa;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .overview-content {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+            gap: 18px;
+        }
+        .overview-section .overview-content,
+        .picks-content {
+            grid-template-columns: 1fr;
+        }
+        .picks-content .overview-part {
+            background: transparent;
+            border: 0;
+            padding: 0;
+        }
+        .picks-content .overview-part-heading {
+            display: none;
+        }
+        .overview-part {
+            min-width: 0;
+            border: 1px solid #d8dee4;
+            border-radius: 10px;
+            background: #fbfbfc;
+            padding: 18px;
+        }
+        .overview-part-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .overview-part-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #24292f;
+            margin: 0;
+        }
+        .trends-list {
+            display: grid;
+            gap: 12px;
+        }
+        .trend-item {
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr);
+            gap: 12px;
+            font-size: 14px;
+            color: #424a53;
+            line-height: 1.7;
+            padding: 14px;
+            border: 1px solid #d8dee4;
+            border-radius: 8px;
+            background: white;
+        }
+        .trend-item h4,
+        .pick-item h4 {
+            margin: 0 0 4px;
+            color: #24292f;
+            font-size: 14px;
+            line-height: 1.35;
+        }
+        .trend-item p,
+        .pick-item p {
+            margin: 0;
+        }
+        .overview-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #ddf4ff;
+            color: #0969da;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .picks-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .pick-item {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            gap: 10px;
+            font-size: 14px;
+            color: #424a53;
+            line-height: 1.6;
+            padding: 12px;
+            background: white;
+            border: 1px solid #d8dee4;
+            border-radius: 8px;
+        }
+        .pick-rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: #dafbe1;
+            color: #1a7f37;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 22px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d0d7de;
+            margin-bottom: 20px;
+        }
+        .section-title .count {
+            font-size: 14px;
+            color: #8b949e;
+            font-weight: normal;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #d0d7de;
+            transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s, background-color 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card.is-marked {
+            background: #fff8dc;
+            border-color: #d4a72c;
+            box-shadow: 0 4px 14px rgba(212, 167, 44, 0.18);
+        }
+        .card.is-marked .card-title {
+            color: #8250df;
+        }
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .card.is-marked:hover {
+            box-shadow: 0 6px 18px rgba(212, 167, 44, 0.24);
+        }
+        .card-header {
+            margin-bottom: 12px;
+        }
+        .card-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0969da;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .card-title:hover {
+            text-decoration: underline;
+        }
+        .source-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            color: white;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .mark-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 25px;
+            padding: 0 8px;
+            border: 1px solid #d0d7de;
+            border-radius: 13px;
+            background: #ffffff;
+            color: #57606a;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .mark-button:hover {
+            border-color: #d4a72c;
+            color: #8250df;
+            background: #fff8dc;
+        }
+        .mark-button[aria-pressed="true"] {
+            border-color: #d4a72c;
+            background: #d4a72c;
+            color: #24292f;
+            font-weight: 700;
+        }
+        .mark-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #656d76;
+        }
+        .lang-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .lang-name { font-weight: 500; }
+        .stars { color: #e3b341; font-weight: 500; }
+        .gained { color: #1a7f37; font-size: 12px; }
+        .card-body {
+            flex: 1;
+            font-size: 14px;
+            color: #424a53;
+            line-height: 1.7;
+        }
+        .card-body p {
+            margin-bottom: 0;
+        }
+        .summary-section {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .summary-section:last-child {
+            margin-bottom: 0;
+        }
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 1px 7px;
+            border-radius: 4px;
+            border: 1px solid;
+            white-space: nowrap;
+            flex-shrink: 0;
+            background: rgba(0,0,0,0.02);
+        }
+        .section-content {
+            font-size: 13.5px;
+            color: #424a53;
+        }
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .repo-link {
+            font-size: 13px;
+            color: #0969da;
+            text-decoration: none;
+        }
+        .repo-link:hover { text-decoration: underline; }
+        .community-link {
+            font-size: 12px;
+            color: #656d76;
+            text-decoration: none;
+            background: #f6f8fa;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid #d0d7de;
+        }
+        .community-link:hover {
+            background: #eaeef2;
+        }
+        .release-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #d0d7de;
+            font-size: 13px;
+        }
+        .release-tag {
+            background: #ddf4ff;
+            color: #0969da;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .release-date { color: #8b949e; }
+        .release-link {
+            color: #0969da;
+            text-decoration: none;
+            margin-left: auto;
+        }
+        .release-link:hover { text-decoration: underline; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #8b949e;
+            font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .overview-section,
+            .picks-section {
+                padding: 22px 16px;
+                border-radius: 10px;
+            }
+            .overview-header {
+                margin-bottom: 18px;
+            }
+            .overview-header h2 {
+                font-size: 22px;
+            }
+            .picks-header h2 {
+                font-size: 22px;
+            }
+            .overview-content {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .picks-list {
+                grid-template-columns: 1fr;
+            }
+            .overview-part {
+                padding: 14px;
+            }
+            .trend-item {
+                grid-template-columns: 34px minmax(0, 1fr);
+                padding: 12px;
+            }
+            .overview-number {
+                width: 30px;
+                height: 30px;
+            }
+            .pick-item {
+                padding: 11px;
+            }
+            header h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GitHub 热点周报</h1>
+            <div class="subtitle">2026-07-13</div>
+            <div class="stats">共收录 50 个热点项目</div>
+        </header>
+
+        <nav><a href="#section-overview" class="nav-link">本周概览</a><a href="#section-picks" class="nav-link">精选推荐</a><a href="#section-trending" class="nav-link">GitHub Trending (31)</a><a href="#section-star_growth" class="nav-link">Star 飙升 (12)</a><a href="#section-releases" class="nav-link">新版本发布 (7)</a></nav>
+
+        
+    <section class="overview-section" id="section-overview">
+        <div class="overview-header">
+            <div>
+                <span class="overview-eyebrow">Weekly Brief</span>
+                <h2>本周趋势概览</h2>
+            </div>
+            <span class="overview-date">07.13</span>
+        </div>
+        <div class="overview-content">
+            
+        <div class="overview-part overview-trends">
+            <div class="overview-part-heading">
+                <span class="overview-kicker">Trends</span>
+                <h3 class="overview-part-title">趋势综述</h3>
+            </div>
+            <div class="trends-list">
+                <article class="trend-item">
+                    <span class="overview-number">01</span>
+                    <p>**AI编码代理生态爆发，技能/插件标准化成为核心趋势**  
+   本周GitHub上涌现了大量围绕Claude Code、Codex等AI编码代理的技能包、插件和网关工具。代表项目如claude-skills（355个技能）、archify（自然语言生成架构图）、OmniRoute（统一API调用）、orcas（并行管理多个代理）等，反映出开发者正在从单一代理使用转向构建可复用的工具链和标准化插件系统，以提升AI编码效率与工作流灵活性。</p>
+                </article>
+                <article class="trend-item">
+                    <span class="overview-number">02</span>
+                    <p>**AI驱动的安全测试自动化进入实用阶段**  
+   Strix和PentAGI等项目展示了多智能体协作完成渗透测试的能力，从漏洞发现、利用到修复建议形成闭环。这标志着AI+安全的交叉领域从概念验证走向生产应用，为开发者和安全团队提供了低成本、高覆盖的自动化安全检测方案。</p>
+                </article>
+                <article class="trend-item">
+                    <span class="overview-number">03</span>
+                    <p>**本地优先与隐私保护的AI工具成为新刚需**  
+   meetily（100%本地会议转录总结）、RuView（基于WiFi的生命体征监测，无需摄像头或云服务）等项目强调离线处理、隐私保护和边缘计算。这反映了用户对数据主权和低延迟的强烈需求，尤其在企业级应用和敏感场景中愈发重要。</p>
+                </article>
+                <article class="trend-item">
+                    <span class="overview-number">04</span>
+                    <p>**AI代理基础设施与网关层加速构建**  
+   OmniRoute聚合237+AI提供商（含90+免费模型），CubeSandbox提供硬件级安全沙箱，SkillHub作为企业级技能注册中心——这些项目共同指向AI代理从单体工具向平台化、服务化演进，需要统一网关、安全沙箱和技能治理层来支撑规模化部署。</p>
+                </article>
+                <article class="trend-item">
+                    <span class="overview-number">05</span>
+                    <p>**AI生成UI的质量控制与设计指导成为新焦点**  
+   impeceable（23个设计命令+46条确定性检测规则）、facebook/astryx（150+可访问组件，AI友好架构）等工具表明，开发者已不满足于AI生成“能用”的界面，转而要求品牌一致性、可访问性和美学标准。这预示着AI辅助前端开发将进入精细化阶段。</p>
+                </article></div>
+        </div>
+        </div>
+    </section>
+    
+    <section class="picks-section" id="section-picks">
+        <div class="picks-header">
+            <div>
+                <span class="overview-eyebrow">Editor's Picks</span>
+                <h2>精选推荐</h2>
+            </div>
+        </div>
+        <div class="overview-content picks-content">
+            
+        <div class="overview-part overview-picks">
+            <div class="overview-part-heading">
+                <span class="overview-kicker">Picks</span>
+                <h3 class="overview-part-title">精选推荐</h3>
+            </div>
+            <div class="picks-list">
+                <article class="pick-item">
+                    <span class="pick-rank">1</span>
+                    <div>
+                        <h4>Zackriya-Solutions/meetily</h4>
+                        <p>唯一100%本地化的AI会议助手，4倍速实时转录与说话人分离，隐私敏感团队的理想选择。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">2</span>
+                    <div>
+                        <h4>usestrix/strix</h4>
+                        <p>开源AI渗透测试工具，自动发现并修复漏洞，AI+安全领域最实用的项目之一。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">3</span>
+                    <div>
+                        <h4>diegosouzapw/OmniRoute</h4>
+                        <p>免费AI网关，聚合237个提供商，解决API配额和成本痛点，让Claude Code/Codex直接调用免费模型。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">4</span>
+                    <div>
+                        <h4>alirezarezvani/claude-skills</h4>
+                        <p>提供355个即用技能，覆盖13个领域，是AI编码代理插件的最大宝库，降低开发者的重复工作。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">5</span>
+                    <div>
+                        <h4>pbakaus/impeccable</h4>
+                        <p>专为AI生成界面设计的检测工具链，用23个设计命令和46条规则确保品牌一致性，前端团队必看。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">6</span>
+                    <div>
+                        <h4>ruvnet/RuView</h4>
+                        <p>利用WiFi信号实现穿墙生命体征监测，颠覆性创新，无需摄像头即可集成智能家居。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">7</span>
+                    <div>
+                        <h4>tt-a1i/archify</h4>
+                        <p>用自然语言生成架构图、工作流图，支持多种格式和高清导出，极大简化架构文档的制作。</p>
+                    </div>
+                </article>
+                <article class="pick-item">
+                    <span class="pick-rank">8</span>
+                    <div>
+                        <h4>Robbyant/lingbot-world-v</h4>
+                        <p>基于大模型的世界建模系统，60fps实时交互，生成无限可操作虚拟世界，游戏与AI研究者的利器。</p>
+                    </div>
+                </article></div>
+        </div>
+        </div>
+    </section>
+        <section class="section" id="section-trending">
+            <h2 class="section-title">🔥 GitHub Trending <span class="count">(31)</span></h2>
+            <div class="card-grid">
+                
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/Zackriya-Solutions/meetily">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/Zackriya-Solutions/meetily" target="_blank" class="card-title">Zackriya-Solutions/meetily</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (overall)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 23,680</span><span class="gained">+7,440 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一款基于 Rust、保护隐私的 AI 会议助手，提供 100% 本地化的实时转录、说话人分离与会议总结，无需任何云服务。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">4 倍速 Parakeet/Whisper 实时转写、说话人分离（Speaker Diarization）、集成 Ollama 进行本地总结、完全离线处理。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合注重数据隐私的团队或个人，在 macOS 与 Windows 上用于会议记录、纪要生成及后续复盘。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">受隐私优先与本地 AI 部署趋势推动，Star 数超 2.3 万，近期在 Trendshift 等平台持续热门。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/Zackriya-Solutions/meetily" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/asgeirtj/system_prompts_leaks">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/asgeirtj/system_prompts_leaks" target="_blank" class="card-title">asgeirtj/system_prompts_leaks</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (javascript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 56,808</span><span class="gained">+7,155 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是一个系统提示泄露合集，专门收集并公开Anthropic、OpenAI、Google、xAI等主流AI模型的隐藏系统指令，帮助外界了解各模型的行为规则与底层约束。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">覆盖GPT-5.6、Claude Fable 5、Gemini 3.5 Flash等最新模型，提供48个工具和16个技能的完整提示，支持版本差异对比</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适用于AI安全研究者、提示词工程师、模型行为分析师，以及想要理解或绕过AI规则限制的开发者</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">被《华盛顿邮报》报道引爆舆论，揭示AI隐藏规则引发全球讨论，GitHub两天内获超5.6万星</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/asgeirtj/system_prompts_leaks" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/diegosouzapw/OmniRoute">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/diegosouzapw/OmniRoute" target="_blank" class="card-title">diegosouzapw/OmniRoute</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (typescript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 16,318</span><span class="gained">+4,506 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">OmniRoute 是一个免费 AI 网关，通过单一端点聚合 237 个提供商（其中 90+ 免费），让 Claude Code、Codex、Cursor 等工具直接调用免费模型，解决开发者频繁遭遇配额限制和高昂 API 成本的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">RTK+Caveman 堆栈压缩可节省 15–95% 令牌、17 种智能路由策略与自动故障转移、桌面端与 PWA 多模态 API 支持，集成的免费令牌池月均约 16 亿。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合 AI 应用开发者、AI 工具使用者（如 Claude Code、Cursor 用户），以及需要在多个免费/付费大模型间低成本、高可靠地进行切换和负载均衡的生产环境。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">16k+ Stars 表明社区对其“零成本聚合免费模型 + 极致令牌压缩”模式高度认可；近期因大模型 API 成本上涨，开发者更青睐这类能显著降低开销且无需自建基础设施的开源网关。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/diegosouzapw/OmniRoute" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/stablyai/orca">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/stablyai/orca" target="_blank" class="card-title">stablyai/orca</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (typescript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 17,269</span><span class="gained">+4,481 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Orca是AI开发环境（ADE），用于管理并行的编码代理，让用户在同一个界面中运行Codex、ClaudeCode等不同代理。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持并行运行多个编码代理并在独立工作树中追踪、自带订阅可运行任意代理、提供桌面端和移动端双端协同管理。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合需要同时使用多个AI编码代理的开发者，例如并行完成不同任务或对比多个代理输出，在桌面和手机上均可监控。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期AI编码代理爆发式增长，Orca提供统一的并行管理方案，大幅提升多代理使用效率，因此备受关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/stablyai/orca" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/bradautomates/claude-video">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/bradautomates/claude-video" target="_blank" class="card-title">bradautomates/claude-video</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (python)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 7,883</span><span class="gained">+4,353 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是一个Claude插件，能让Claude下载、提取帧和转录视频，从而理解视频内容，解决Claude无法直接观看视频的局限。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">零配置自动安装yt-dlp和ffmpeg、场景感知帧提取与免费字幕抓取、支持多种AI宿主（Claude Code、Codex、Cursor等）快速集成</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合内容创作者分析竞品视频、开发者诊断屏幕录制中的Bug、研究人员分析播客或广告结构</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因为Claude原生缺乏视频理解能力，此插件填补关键空白，Star数已达7883，受到开发者社区高度关注</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/bradautomates/claude-video" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/usestrix/strix">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/usestrix/strix" target="_blank" class="card-title">usestrix/strix</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (python)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 40,915</span><span class="gained">+4,143 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Strix 是开源AI渗透测试工具，通过自主AI黑客模拟攻击，自动发现并修复应用安全漏洞。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">基于AI的自主漏洞挖掘与利用、自动化渗透测试全流程、集成漏洞修复建议</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合安全研究员、开发者在CI/CD流程或日常安全检测中自动扫描Web应用漏洞</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">AI+安全交叉领域爆发，开源免费且4万+ Star，配合自动化渗透测试需求激增</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/usestrix/strix" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/JuliusBrussee/caveman">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/JuliusBrussee/caveman" target="_blank" class="card-title">JuliusBrussee/caveman</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (javascript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 88,631</span><span class="gained">+3,992 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一个让AI编码代理用原始人风格回答的插件/技能，能将输出token减少65%，同时保持代码和命令精确不变。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持30多个AI编码代理（Claude Code、Codex、Gemini等）、一键安装即永久生效、保持代码/命令/错误信息字节级准确的同时大幅压缩token消耗。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合所有使用AI编码助手（Claude Code、Cursor、Copilot等）的开发者，用于日常编码对话、代码生成与调试场景，尤其适合消耗大量token的高级用户或团队。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">8.8万+星标证明其精准满足了开发者降低AI成本、提升效率的刚需，用“原始人说话”的幽默形式直击token消费痛点，在LLM成本敏感期迅速走红。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/JuliusBrussee/caveman" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/ogulcancelik/herdr">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/ogulcancelik/herdr" target="_blank" class="card-title">ogulcancelik/herdr</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (rust)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 15,851</span><span class="gained">+3,928 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">herdr是一个运行在终端中的AI代理（agent）多路复用器，让你同时监控、操控多个自主代理的实时输出，而非通过封装后的抽象视图。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">实时终端视图，直接展示每个代理阻塞、运行、完成的状态，而非二次包装；代理会话可分离并持续运行，支持从任何终端或SSH重连；提供纯Socket API，代理可创建窗格、读取输出、相互等待，实现自主协作。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合AI开发者、研究员和运维人员在终端中并行运行、调试多个自主代理，或构建复杂的多代理工作流。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">随着AI代理工具爆发式增长，herdr凭借轻量级终端多路复用、独特的代理间API及Rust的高性能，在GitHub迅速获得1.58万星，成为管理代理基础设施的热门选择。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/ogulcancelik/herdr" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/ruvnet/RuView">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/ruvnet/RuView" target="_blank" class="card-title">ruvnet/RuView</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (rust)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 80,290</span><span class="gained">+3,763 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">RuView 是一个利用普通WiFi信号实现穿墙空间感知、生命体征监测和存在检测的系统，完全无需摄像头或可穿戴设备。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">基于无线物理信号分析实现穿透墙壁的呼吸与心率监测、支持Home Assistant/Apple Home/Google Home等主流智能家居平台直接集成。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适用于智能家居自动化安防、老人独居监护、无接触式健康监测及隐私敏感区域（如浴室、卧室）的免摄像头感知。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">凭借80290星标反映出用户对隐私保护的强烈需求，以及WiFi感知作为低成本替代摄像头的突破性方案备受关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/ruvnet/RuView" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/openai/codex-plugin-cc">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/openai/codex-plugin-cc" target="_blank" class="card-title">openai/codex-plugin-cc</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (overall)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 28,128</span><span class="gained">+2,803 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是OpenAI为Claude Code开发的官方插件，让用户在当前工作流中直接调用Codex进行代码审查或委托任务。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">提供/codex:review和/codex:adversarial-review两种审查模式、支持/codex:rescue等任务委托与后台作业管理、无需离开Claude Code即可无缝使用Codex。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合习惯Claude Code的开发者，在代码审查、多文件变更检查、复杂任务异步处理等场景使用。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">Star数高达2.8万，因为它是OpenAI官方整合两大热门AI工具（Claude Code与Codex）的实用桥梁，近期在开发者社区引发广泛关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/openai/codex-plugin-cc" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/xbtlin/ai-berkshire">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/xbtlin/ai-berkshire" target="_blank" class="card-title">xbtlin/ai-berkshire</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (python)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 12,928</span><span class="gained">+2,729 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">AI Berkshire 是一套基于Claude Code/Codex的价值投资研究框架，将巴菲特、芒格、段永平、李录四位大师方法论系统化，通过多Agent并行分析解决AI直接提问时结论模糊、无法辅助决策的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">强制输出明确投资结论（通过/不通过/灰色地带）及价格区间、多Agent并行研究模拟不同大师视角、与Claude Code/Codex深度集成实现“一人+AI=投研团队”。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合个人价值投资者、分析师和投资爱好者进行公司基本面深度研究，以及需要结构化决策支持的价值投资场景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因为作者公开的实盘业绩（2024年+69%、2025年+66%）显著跑赢全球主要指数，且开源将复杂投研流程Agent化，引发量化与AI投资社区广泛关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/xbtlin/ai-berkshire" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/alibaba/page-agent">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/alibaba/page-agent" target="_blank" class="card-title">alibaba/page-agent</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (typescript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 26,265</span><span class="gained">+2,666 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Page Agent 是一个运行在网页中的 GUI 代理脚本，允许用户用自然语言直接控制任何网页界面。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">自然语言驱动操作、免安装脚本注入、轻量级 TypeScript 实现</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合前端开发者、自动化测试工程师、需要无代码网页交互的普通用户</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">AI Agent 概念爆发，阿里开源加持，单脚本赋予页面智能交互能力引发广泛关注</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/alibaba/page-agent" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/TencentCloud/CubeSandbox">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/TencentCloud/CubeSandbox" target="_blank" class="card-title">TencentCloud/CubeSandbox</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (overall)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 9,839</span><span class="gained">+2,490 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>定位
+一个为AI智能体打造的即时、并发、安全且轻量的沙箱服务，专门解决AI Agent执行任意代码或工具调用时的隔离与安全问题。
+
+亮点
+基于硬件级安全隔离、毫秒级启动速度、支持高并发与高密度部署、兼容E2B API标准
+
+场景
+适合AI Agent开发者、智能体平台、云服务提供商，用于安全运行AI生成的代码、第三方工具调用及动态任务执行。
+
+热度
+AI Agent生态爆发，安全沙箱成为刚需；腾讯云开源背书，Rust实现性能卓越；已入选CNCF Landscape，关注度持续攀升。</p>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/TencentCloud/CubeSandbox" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/facebook/astryx">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/facebook/astryx" target="_blank" class="card-title">facebook/astryx</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (typescript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 8,260</span><span class="gained">+2,397 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Astryx 是 Meta 内部最大设计系统的开源版本，提供 150+ 可访问组件和品牌级主题化，专为人类与 AI 代理协同构建而设计。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">150+ 可访问组件和即用模板、无需额外构建插件的零依赖使用方式、对 AI 代理友好的架构设计。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合需要快速搭建一致 UI 的团队，尤其适用于与 AI 辅助开发工具（如 Copilot）结合的开发流程。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">源自 Meta 8 年内部验证、支撑 13,000+ 应用的设计系统，近期开源并强调 AI 协作特性，引发关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/facebook/astryx" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/pbakaus/impeccable">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/pbakaus/impeccable" target="_blank" class="card-title">pbakaus/impeccable</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (javascript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 46,043</span><span class="gained">+2,272 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Impeccable 是一个为 AI 编码代理提供前端设计指导的“技能”和检测工具链，解决 AI 生成界面设计同质化、缺乏品牌个性的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">23 个共享设计命令（如 polish、audit）实现人机协作迭代、46 条无需 LLM 的确定性检测规则、一键初始化流程自动生成设计上下文文件 PRODUCT.md 与 DESIGN.md</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合使用 AI 编码工具（如 Claude、Cursor）的前端开发者、UI 设计师，用于快速启动新项目或迭代设计质量。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期 AI 编码工具爆发式增长，开发者对 AI 输出设计质量的痛点日益突出，Impeccable 提供结构化、可复用的设计引导方案，契合需求。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/pbakaus/impeccable" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/alirezarezvani/claude-skills">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/alirezarezvani/claude-skills" target="_blank" class="card-title">alirezarezvani/claude-skills</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (python)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 22,412</span><span class="gained">+1,993 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是为Claude Code、Codex、Gemini CLI等13种AI编码工具提供355个即用技能和插件的大型开源库，解决AI编码助理缺乏专业化、可复用知识包的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">含355个生产级技能与99+智能体角色、覆盖工程/营销/合规/企业顾问等13个领域、预置自定义命令和可定制参考脚本</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">开发者、产品经理、市场人员、企业高管和研究人员在使用各类AI编码工具时，快速调用专业级技能模板</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">AI编码工具（Claude Code、Cursor等）爆发式增长，用户急需成熟、高质量的技能包提升效率，且该项目生态兼容性极强</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/alirezarezvani/claude-skills" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/vxcontrol/pentagi">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/vxcontrol/pentagi" target="_blank" class="card-title">vxcontrol/pentagi</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (go)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#00ADD8"></span>
+                <span class="lang-name">Go</span>
+                <span class="stars">&#9733; 20,209</span><span class="gained">+1,989 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">PentAGI 是一个基于多 AI 智能体协作的系统，能够自主完成复杂渗透测试任务，让安全测试从人工操作迈向自动化。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">多智能体协同架构与高级监督，支持 OpenAI、Anthropic、Ollama 等十余种 LLM 提供商，集成知识图谱与可观测性工具来提升测试效率与可追溯性</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适用于红队、安全研究人员和渗透测试工程师，在安全评估、漏洞验证、自动化攻击模拟等场景中替代繁琐的手动操作</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">结合 AI Agent 与网络安全的热门方向，Star 数超两万，社区在 Discord 和 Telegram 上活跃，近期因“AI 自主完成渗透测试”的潜力广受关注</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/vxcontrol/pentagi" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/wonderwhy-er/DesktopCommanderMCP">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/wonderwhy-er/DesktopCommanderMCP" target="_blank" class="card-title">wonderwhy-er/DesktopCommanderMCP</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (overall)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 8,036</span><span class="gained">+1,678 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是一个MCP服务器，为Claude等AI助手提供终端控制、文件系统搜索和差异文件编辑能力，让AI能直接操作本地文件和执行命令。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">终端命令实时执行、文件差异编辑与预览、文件系统搜索操作</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合开发者、运维人员在使用Claude或其他MCP兼容客户端时，需要AI直接修改代码、运行脚本或管理文件的场景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">随着MCP协议生态爆发和AI编程助手需求增长，该项目让AI突破聊天限制直接操控本地环境且支持多模型（通过App版本），因此迅速积累高Star。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/wonderwhy-er/DesktopCommanderMCP" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/anthropics/claude-code">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/anthropics/claude-code" target="_blank" class="card-title">anthropics/claude-code</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (python)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 137,607</span><span class="gained">+1,477 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Claude Code是一个驻留在终端中的智能编码助手，通过自然语言交互来理解代码库、执行例程任务、解释复杂代码和管理Git工作流。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">基于Claude模型的深度代码语义理解、原生终端与IDE及GitHub集成、内置丰富的插件生态和自定义命令。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合需要高效编码辅助、快速代码解释、自动化重构和Git操作的全栈开发者，常用于日常开发、代码审查和项目维护。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期因AI编码助手市场白热化竞争和Claude模型在长上下文、多模态推理上的突破而受瞩目，是Anthropic推出的旗舰终端编码工具。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/anthropics/claude-code" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/oven-sh/bun">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/oven-sh/bun" target="_blank" class="card-title">oven-sh/bun</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (rust)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 94,639</span><span class="gained">+1,190 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Bun是集JavaScript运行时、打包器、测试运行器和包管理器于一体的全栈工具，旨在替代Node.js，极速启动且内存占用低。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">基于Rust和JavaScriptCore实现极高启动速度与低内存、内置打包与测试功能无需额外工具、与Node.js生态高度兼容可无缝迁移。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合前端与Node.js开发者，用于快速开发、测试、打包及包管理，尤其适配追求性能和简化工具链的项目。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因其一体化方案和远超传统工具的性能而受到社区追捧，Star数近10万，成为高性能JS工具链的热门选择。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/oven-sh/bun" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/tt-a1i/archify">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/tt-a1i/archify" target="_blank" class="card-title">tt-a1i/archify</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (javascript)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 3,971</span><span class="gained">+1,180 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Archify 是一个为 Claude、Codex CLI 等工具设计的 Agent 技能，通过自然语言描述即可生成架构图、工作流图、序列图等，并支持主题切换和高清导出。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持多种图类型（架构、工作流、序列、数据流等）、一键暗/亮主题切换（会话间持久化）、PNG/JPEG/WebP/SVG 超清晰导出（最高 4× 源分辨率）、SVG 自动跟随系统暗/亮模式、内建验证循环和语义技术标签（如 aws.lambda）。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合开发者、架构师在聊天界面中快速创建技术图，用于文档、代码仓库 README、Slack/Notion 分享、CI/CD 流程说明等。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期受关注是因为 AI 辅助编码工具（Claude、Codex CLI）热度高涨，Archify 填补了从文本描述到专业可导出图表的一步到位需求，且导出质量高、零依赖 HTML 便于分享。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/tt-a1i/archify" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/abseil/abseil-cpp">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/abseil/abseil-cpp" target="_blank" class="card-title">abseil/abseil-cpp</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (overall)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f34b7d"></span>
+                <span class="lang-name">C++</span>
+                <span class="stars">&#9733; 17,947</span><span class="gained">+600 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Abseil是Google开源的C++公共库集合，旨在补充C++标准库中缺失或不足的组件，提供经过生产验证的高质量基础代码。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">提供标准库未覆盖的实用工具（如容器、算法、字符串处理等）、与Google内部代码一致的高测试覆盖率、支持Bazel和CMake双构建系统且兼容C++17。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合所有C++开发者，尤其适用于需要高性能、高可靠基础设施的大型项目，或希望复用Google成熟代码的团队。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因Google背书、广泛集成于TensorFlow等知名项目，以及持续为C++标准演进提供实践反馈而受关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/abseil/abseil-cpp" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/golang/go">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/golang/go" target="_blank" class="card-title">golang/go</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (go)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#00ADD8"></span>
+                <span class="lang-name">Go</span>
+                <span class="stars">&#9733; 135,346</span><span class="gained">+555 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Go是一种开源编程语言，旨在让构建简单、可靠且高效的软件变得容易，解决传统语言在并发性和编译速度上的痛点。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">内建并发模型（goroutine和channel）、极快编译速度、静态类型与垃圾回收，提供简洁语法和强大标准库。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合云原生服务、微服务、网络编程、CLI工具开发，以及需要高并发和后端系统的团队与个人。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因为Go在云原生和DevOps生态中广泛使用（如Docker、Kubernetes），且社区长期稳定演进，近期新特性（如泛型）持续吸引关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/golang/go" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/larksuite/cli">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/larksuite/cli" target="_blank" class="card-title">larksuite/cli</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (go)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#00ADD8"></span>
+                <span class="lang-name">Go</span>
+                <span class="stars">&#9733; 15,524</span><span class="gained">+397 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Lark/飞书官方CLI工具，专为人类和AI Agent设计，提供200+命令和26个AI Agent技能，覆盖即时通讯、文档、多维表格、日历等核心业务域。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">三层命令架构（快捷命令→API命令→原始API）适应不同粒度、Agent原生设计提供24个开箱即用的结构化技能、安全机制包括输入注入防护与终端输出净化。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合飞书/Lark平台开发者和运维人员，用于快速批量管理消息、文档、日历等资源，以及作为AI Agent的API交互入口，实现自动化办公流程。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">今年以来AI Agent概念火热，该工具专为Agent优化且零配置兼容主流AI工具，MIT许可证免费使用，3分钟即可上手，吸引大量自动化和效率工具用户关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/larksuite/cli" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/argoproj/argo-cd">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/argoproj/argo-cd" target="_blank" class="card-title">argoproj/argo-cd</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (go)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#00ADD8"></span>
+                <span class="lang-name">Go</span>
+                <span class="stars">&#9733; 23,648</span><span class="gained">+340 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Argo CD 是面向 Kubernetes 的声明式 GitOps 持续交付工具，通过将应用配置存储在 Git 仓库中实现自动化部署与状态同步。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">原生 GitOps 工作流、自动同步与回滚、多集群管理与 SSO 集成</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合 Kubernetes 运维和 DevOps 团队，用于管理多环境、多集群的生产级应用交付。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">作为 CNCF 毕业项目，GitOps 模式在云原生社区广泛采纳，其声明式、可审计的特性契合现代基础设施需求。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/argoproj/argo-cd" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/yuliskov/SmartTube">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/yuliskov/SmartTube" target="_blank" class="card-title">yuliskov/SmartTube</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (java)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#b07219"></span>
+                <span class="lang-name">Java</span>
+                <span class="stars">&#9733; 31,276</span><span class="gained">+289 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">SmartTube是一款免费开源的Android TV媒体客户端，为用户提供TV优化界面下的内容浏览与播放体验。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">集成SponsorBlock跳过赞助片段、支持8K/60fps/HDR播放、可调播放速度</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合Android TV和电视盒子用户，用于观看来自公开源的媒体内容并避免广告打扰。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因近期开发者披露了恶意软件感染事件并完成安全修复，同时持续更新F-Droid与GitHub版本，引发了用户对安全性和功能性的广泛关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/yuliskov/SmartTube" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/skylot/jadx">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/skylot/jadx" target="_blank" class="card-title">skylot/jadx</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (java)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#b07219"></span>
+                <span class="lang-name">Java</span>
+                <span class="stars">&#9733; 49,665</span><span class="gained">+254 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">jadx 是一款将 Android Dex 和 APK 文件反编译为 Java 源代码的命令行与 GUI 工具，解决从字节码还原可读 Java 代码的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持 APK、Dex、AAR、AAB 等多种格式反编译、内置资源解码与去混淆器、GUI 提供语法高亮、全文搜索及 Smali 调试器</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合安卓逆向工程师、安全研究员和开发者用于 APK 分析、恶意软件检测、遗留代码恢复及学习调试。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">拥有近 5 万 Star，持续活跃维护，在安卓生态中反编译需求稳定，且功能完善、易用性高，近期关注度回升。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/skylot/jadx" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/iflytek/skillhub">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/iflytek/skillhub" target="_blank" class="card-title">iflytek/skillhub</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (java)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#b07219"></span>
+                <span class="lang-name">Java</span>
+                <span class="stars">&#9733; 3,989</span><span class="gained">+231 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">自托管的企业级开源Agent技能注册中心，让团队能在私有环境中发布、发现和管理可复用的技能包，解决企业内AI技能分散、难以治理的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持技能包的发布与版本管理、基于RBAC的访问控制与审计日志、可部署在Docker或Kubernetes上，完全在防火墙内运行。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合需要内部共享AI Agent技能、并希望实现规范化治理的企业团队，尤其适用于对安全性和合规性有较高要求的环境。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">AI Agent生态持续火热，企业越来越需要私有化的技能管理平台，而SkillHub填补了这一空白，其开源、自托管的特性吸引了近4000 Star的关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/iflytek/skillhub" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/Anuken/Mindustry">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/Anuken/Mindustry" target="_blank" class="card-title">Anuken/Mindustry</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (java)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#b07219"></span>
+                <span class="lang-name">Java</span>
+                <span class="stars">&#9733; 28,288</span><span class="gained">+174 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一款融合自动化生产线的塔防即时战略游戏，用Java开发，强调资源管理与基地建造。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">自动化流水线与塔防玩法深度结合、单人与多人合作/对战模式、跨平台支持（PC/安卓/服务器）。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合策略游戏爱好者、塔防玩家、想要学习游戏开发与Java实践的开发者。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因独特的“工厂+战争”玩法吸引硬核策略玩家，开源社区持续贡献模组与地图，评分极高。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/Anuken/Mindustry" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/spring-projects/spring-boot">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/spring-projects/spring-boot" target="_blank" class="card-title">spring-projects/spring-boot</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (java)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#b07219"></span>
+                <span class="lang-name">Java</span>
+                <span class="stars">&#9733; 81,205</span><span class="gained">+164 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Spring Boot 是一个用于快速构建生产级 Spring 应用的框架，通过自动配置和起步依赖大幅降低开发门槛，让开发者只需最小的配置即可启动并运行服务。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">自动配置与起步依赖、嵌入式服务器（Tomcat, Jetty, Undertow）、生产就绪特性（健康检查、指标、外部化配置）</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合 Java 开发者快速构建微服务、Web 应用及云原生服务，尤其适用于团队追求高效迭代和运维的场景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">作为 Spring 生态的核心项目，持续占据 Java 框架榜首，每次版本更新（如支持 Java 21、虚拟线程）都引发广泛关注，GitHub 超 81k Star。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/spring-projects/spring-boot" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="trending" data-bookmark-key="https://github.com/ethereum/go-ethereum">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/ethereum/go-ethereum" target="_blank" class="card-title">ethereum/go-ethereum</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#0e7a3f">Trending (go)</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#00ADD8"></span>
+                <span class="lang-name">Go</span>
+                <span class="stars">&#9733; 51,341</span><span class="gained">+157 this week</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Go语言实现的以太坊协议执行层客户端，提供完整的节点软件（geth）和工具链，是接入以太坊网络的核心组件。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">高性能P2P网络与EVM引擎、原生支持所有以太坊硬分叉及EIP升级、丰富的命令行工具集（如账户管理、状态查询）</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适用于以太坊全节点运营者、智能合约开发者、区块链研究机构及需要直接与以太坊主网交互的DApp后端。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">作为以太坊执行层最流行的客户端，合并后承担交易执行与状态存储关键角色，社区活跃（5.1万Star）且持续跟进硬分叉升级。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/ethereum/go-ethereum" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+            </div>
+        </section>
+        <section class="section" id="section-star_growth">
+            <h2 class="section-title">🚀 Star 飙升 <span class="count">(12)</span></h2>
+            <div class="card-grid">
+                
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/withmarbleapp/os-taxonomy">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/withmarbleapp/os-taxonomy" target="_blank" class="card-title">withmarbleapp/os-taxonomy</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 2,750</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是一个开放的儿童学习技能分类体系，将小学阶段知识拆解为1590个微主题，并构建包含3221条先决条件边的有向无环图，对齐多项国家课程标准。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">1590个细粒度微主题配有描述与掌握证据、3221条带硬/软标签及理由的先决条件边、跨NGSS/Common Core等多标准的课程对齐。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合教育科技开发者、课程设计师和教育研究者，用于构建自适应学习系统、分析学习路径或开发教学资源。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因其提供高质量、可交互的开放教育知识图谱，能直观展示知识点间的依赖关系，近期被教育社区和开发者广泛关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/withmarbleapp/os-taxonomy" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/Robbyant/lingbot-world-v2">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/Robbyant/lingbot-world-v2" target="_blank" class="card-title">Robbyant/lingbot-world-v2</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 951</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">LingBot-World 2.0 是一个基于大模型的世界建模系统，能生成无限可交互的虚拟世界并支持多种实时交互动作。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">无限交互视野且质量一致、60fps实时响应720p视频、动作与文本事件高度多样化、首创智能体编排框架（规划行为+合成环境）</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合游戏开发者、AI交互研究者及虚拟世界创作者，用于构建动态游戏场景、开放世界模拟或沉浸式交互体验。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因其将智能体框架融入世界模型、并开源14B可用模型及技术报告，近期在生成式AI与游戏领域引发广泛关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/Robbyant/lingbot-world-v2" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/x4gKing/3x-ui-Upgrade">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/x4gKing/3x-ui-Upgrade" target="_blank" class="card-title">x4gKing/3x-ui-Upgrade</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#e34c26"></span>
+                <span class="lang-name">HTML</span>
+                <span class="stars">&#9733; 894</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是一个基于 Heimdall (3x-ui 改进版) 的面板项目，配合 Nginx 反向代理，在 Railway 平台通过单一端口同时提供面板界面、订阅链接和 VLESS/WebSocket 入站服务，解决 Railway 单端口限制下的部署难题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">自动下载最新版 Heimdall 并构建，无需手动安装、使用 SQLite 作为默认数据库，无需额外配置 Postgres、单端口统一管理面板、订阅和代理入口，降低部署复杂度。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合需要快速在 Railway 免费层部署代理面板的个人用户，特别是希望在一台服务器上同时管理面板、订阅和 WebSocket 代理的场景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期受关注是因为 Railway 提供免费托管，且该项目简化了 3x-ui 在无单独端口的 PaaS 平台上的部署流程，吸引寻求低成本代理管理方案的用户。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/x4gKing/3x-ui-Upgrade" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/Robbyant/lingbot-video">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/Robbyant/lingbot-video" target="_blank" class="card-title">Robbyant/lingbot-video</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 717</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">LingBot-Video是首个开源大规模混合专家（MoE）视频生成模型，专为缩小视频合成与物理世界理解之间的鸿沟而设计，服务于具身智能任务。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">高效MoE架构推理提速约3倍、数据引擎融合7万+小时具身数据、多奖励系统优化美学、物理合理性与任务完成度</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合机器人、自动驾驶与仿真领域的研究者与开发者，用于生成物理合理的控制视频及具身决策训练数据</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">基于MoE架构的具身视频生成开源模型尚属首次，结合技术报告、代码与模型同时释放，填补了高效可控视频生成在具身智能领域的空白</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/Robbyant/lingbot-video" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/vinhhien112/Three.js-Object-Sculptor-Codex-Plugin">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/vinhhien112/Three.js-Object-Sculptor-Codex-Plugin" target="_blank" class="card-title">vinhhien112/Three.js-Object-Sculptor-Codex-Plugin</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 675</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一个Codex插件，将附加图片中的物体转化为纯代码、动画可用的程序化Three.js模型，无需照片扫描或外部资产。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">基于图像的雕刻工作流，程序化几何与材质系统，动画友好的层级结构。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合三维开发者、游戏资产制作者、原型设计师，用于从参考图快速生成交互式3D模型。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">受AI辅助3D生成趋势与Three.js生态热度推动，675星让其实用性备受关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/vinhhien112/Three.js-Object-Sculptor-Codex-Plugin" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/mereyabdenbekuly-ctrl/clodex-ide">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/mereyabdenbekuly-ctrl/clodex-ide" target="_blank" class="card-title">mereyabdenbekuly-ctrl/clodex-ide</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 641</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">本地优先、零信任的代理化集成开发环境，实现可验证的自主软件开发，将AI任务、代码、终端、浏览器、Git、模型和受控执行整合到一个Electron工作区中。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">将模型输出视为不可信输入、通过显式策略与隔离运行时实施严格权限控制、支持持久化AI任务与多工具（终端、浏览器、Git）的深度集成。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合对安全性和可审计性要求较高的开发团队，用于构建可信任的AI辅助编码与自动化工作流，尤其适用于需要严格审计AI自主行为的场景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因其“零信任”+“本地优先”的代理IDE创新架构，顺应了AI辅助开发中对安全与可控性的迫切需求，技术预览发布后迅速吸引开发者关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/mereyabdenbekuly-ctrl/clodex-ide" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/op7418/guizang-material-illustration">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/op7418/guizang-material-illustration" target="_blank" class="card-title">op7418/guizang-material-illustration</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#999999"></span>
+                <span class="lang-name">N/A</span>
+                <span class="stars">&#9733; 598</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一个适配 Claude Code / Codex 等 Agent 的配图 Skill，把文章、笔记、图表截图等生成带中文标签的歸藏材质插画，解决文章、PPT、社交卡片中“中间那张图”的问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">生成带字解释图（流程/机制/系统关系）、图表美化（从截图或数据抽取语义重新渲染）、参考辅助出图（先查参考信息再统一转风格）</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合内容创作者、产品经理、教师、社交媒体运营等需要在文章、PPT、卡片中快速生成有信息量的中心配图，尤其适合需中文标签的科普、产品说明、教学材料场景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">AI 生成配图需求旺盛，材质插画风格独特且能生成口语化中文标签，与 Claude Code / Codex 生态紧密整合，降低了用户为抽象内容配图的门槛。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/op7418/guizang-material-illustration" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/xiaotianfotos/homerail">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/xiaotianfotos/homerail" target="_blank" class="card-title">xiaotianfotos/homerail</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 490</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">HomeRail是一个运行在本地家庭服务器或NAS上的TypeScript运行时，将一次性AI对话转化为可审计、可复用的DAG工作流，核心设计假设是人的注意力是最稀缺的资源，系统应尽量少打扰用户。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">语音优先输入与生成式UI结合、DAG多Agent编排支持显式交接和运行回放、内置工作空间隔离与评价卡机制。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合在homelab、NAS、家庭服务器上部署的个人自动化场景，用于需要低认知负担、可审计的日常任务编排，如智能家居控制、数据整理、个人助理等。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期受关注是因为它提出“语音进、界面出、DAG干”的交互范式，契合本地优先、低注意力开销的AI Agent编排趋势，同时提供开源可自托管的可审计方案。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/xiaotianfotos/homerail" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/Robbyant/lingbot-vla-v2">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/Robbyant/lingbot-vla-v2" target="_blank" class="card-title">Robbyant/lingbot-vla-v2</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 480</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">LingBot-VLA 2.0 是一个视觉-语言-动作基础模型，旨在将大规模预训练能力可靠地迁移到真实世界机器人应用中。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">跨任务与跨硬件泛化（60K 小时数据、20 种机器人配置）、统一动作空间支持多类型机器人部件（臂、灵巧手、移动基座等）、基于未来预测的动力学建模（融合 DINO-Video 语义与 LingBot-Depth 几何线索）。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合机器人研究人员和开发者，用于真实世界的操控任务，例如双臂操作、灵巧手抓取、移动基座导航等。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期发布了技术报告和预训练权重，在 HuggingFace 和 ModelScope 上开放模型，开源代码和论文引发社区关注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/Robbyant/lingbot-vla-v2" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/gostonx/uninstally">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/gostonx/uninstally" target="_blank" class="card-title">gostonx/uninstally</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#F05138"></span>
+                <span class="lang-name">Swift</span>
+                <span class="stars">&#9733; 430</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一个基于 SwiftUI 的原生 macOS 卸载工具，通过智能 bundle-identifier 检测彻底删除应用及所有残留文件。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">SwiftUI 原生界面与 Finder 右键集成、智能识别包标识符清除缓存配置等残留、内置 Homebrew cask 管理支持。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合需要手动清理 macOS 应用残留的普通用户、Homebrew 用户以及追求系统整洁的开发者。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">上线 24 小时即获超千次下载，社区反馈热烈，因为解决了 macOS 自带卸载不彻底的长期痛点。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/gostonx/uninstally" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/Raymondhou0917/speak-human-tw">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/Raymondhou0917/speak-human-tw" target="_blank" class="card-title">Raymondhou0917/speak-human-tw</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#999999"></span>
+                <span class="lang-name">N/A</span>
+                <span class="stars">&#9733; 409</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">一個專為繁體中文設計的 AI 寫作痕跡檢測與改寫 Skill，能自動抓出 35+ 種 AI 慣用語法、校正中國用語與半形標點，讓輸出更像台灣人寫的文字。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#656d76;border-color:#656d76">亮點</span>
+                <span class="section-content">支援 38 種 AI 寫作痕跡掃描、自動轉換兩岸用語與標點符號、內建可量化的校對檢核表，無需人工逐句比對即可提升改寫效率。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#656d76;border-color:#656d76">場景</span>
+                <span class="section-content">適合需要頻繁產出繁體中文內容的創作者、行銷人員與辦公族群，用於電子報、社群貼文、銷售頁、客服回信、簡報、公告與 Email 等場景。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#656d76;border-color:#656d76">熱度</span>
+                <span class="section-content">近期生成式 AI 文本大量湧現，台灣用戶對「去 AI 味」與本土化校正的需求大增，此工具精準切入繁體中文寫作痛點，引發關注。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/Raymondhou0917/speak-human-tw" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+
+    <div class="card" data-source="star_growth" data-bookmark-key="https://github.com/CoscoAI/luxy-aisre">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/CoscoAI/luxy-aisre" target="_blank" class="card-title">CoscoAI/luxy-aisre</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#c9820a">Star 飙升</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 400</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">这是一个面向Kubernetes和云基础设施的智能运维平台，将告警、日志、拓扑、运行手册等整合成“发现-诊断-审批-执行-验证-学习”的AgenticOps工作流。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">融合Langfuse可观测性与Kubernetes原生支持、提供SRE Chat交互式诊断与修复、支持证据驱动的修复方案自动生成及人工审批与恢复验证。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合云原生运维团队、SRE工程师及平台工程人员，用于Kubernetes和云基础设施的故障自动发现、智能诊断、自动化修复及变更影响分析。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">AI Agent+运维是当前热点，该项目实现了从告警到修复的闭环自动化，且兼容主流云原生生态，吸引了400+ Star。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/CoscoAI/luxy-aisre" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+    </div>
+            </div>
+        </section>
+        <section class="section" id="section-releases">
+            <h2 class="section-title">📦 新版本发布 <span class="count">(7)</span></h2>
+            <div class="card-grid">
+                
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/langchain-ai/langchain">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/langchain-ai/langchain" target="_blank" class="card-title">langchain-ai/langchain</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: langchain==1.3.13</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 141,622</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">LangChain是一个专为构建智能体（Agent）和大语言模型（LLM）应用而设计的工程平台，通过链式组合可互操作的组件与第三方集成，简化AI应用开发流程并保护技术决策的长期兼容性。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持通过链式调用编排复杂LLM工作流、内置数百个第三方模型与工具集成、提供从原型到生产级Agent的完整工程化能力。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合AI应用开发者、数据科学家和团队构建智能问答、自动化工作流、RAG系统等LLM驱动产品，尤其适用于需要频繁切换底层模型或扩展功能的生产环境。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">凭借AI Agent热潮和141K+ Star的社区基础，LangChain已成为LLM应用开发的事实标准框架，持续获得开发者关注与新功能更新。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/langchain-ai/langchain" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">langchain==1.3.13</span>
+            <span class="release-date">2026-07-10</span>
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.3.13" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/vercel/next.js">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/vercel/next.js" target="_blank" class="card-title">vercel/next.js</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: v16.3.0-canary.84</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#f1e05a"></span>
+                <span class="lang-name">JavaScript</span>
+                <span class="stars">&#9733; 141,027</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">基于React的全栈Web应用框架，提供服务端渲染、静态生成和API路由等能力，帮助开发者构建高性能现代Web应用。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">支持React服务端组件、基于文件系统的全栈路由、集成基于Rust的快速构建工具</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">前端开发者用于构建企业级React应用、内容网站、电商平台及全栈Web项目</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期因新增Request Insights开发者调试工具和持续的HMR优化，以及作为Vercel生态核心项目而备受关注</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/vercel/next.js" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">v16.3.0-canary.84</span>
+            <span class="release-date">2026-07-12</span>
+            <a href="https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.84" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/rust-lang/rust">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/rust-lang/rust" target="_blank" class="card-title">rust-lang/rust</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: 1.97.0</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 114,669</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Rust编程语言的官方主仓库，包含编译器、标准库和文档，旨在让每个人都能构建可靠高效的软件。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">内存安全的零开销抽象与所有权模型、丰富的类型系统保障编译期线程安全、一体化的工具链（Cargo、rustfmt、Clippy、rust-analyzer）。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合系统编程、嵌入式开发、高性能服务端以及需要高安全性和并发控制的项目。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">凭借极致的内存安全与性能平衡持续吸引开发者；近期稳定了新语言特性（如must use lint优化）和RISC-V目标特性，社区活跃度居GitHub前列。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/rust-lang/rust" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">1.97.0</span>
+            <span class="release-date">2026-07-09</span>
+            <a href="https://github.com/rust-lang/rust/releases/tag/1.97.0" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/denoland/deno">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/denoland/deno" target="_blank" class="card-title">denoland/deno</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: v2.9.2</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#dea584"></span>
+                <span class="lang-name">Rust</span>
+                <span class="stars">&#9733; 107,767</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Deno是一个基于V8、Rust和Tokio的现代JavaScript、TypeScript及WebAssembly运行时，旨在解决Node.js的遗留安全问题并提供开箱即用的优秀开发者体验。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">原生支持TypeScript和WebAssembly无需额外配置、安全默认权限模型（沙箱化文件/网络访问）、内置格式化器、测试器和包管理器等一体化工具链。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合全栈Web开发、微服务、CLI工具和需要高度安全保障的云原生应用，尤其适用于希望用TypeScript直接编写服务端代码的团队。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">近期2.9.2版本新增桌面端HMR（热模块替换）自动检测、窗口透明度API等特性，持续缩短与Node.js的生态差距，同时保持安全与性能优势，吸引大量前端开发者尝鲜。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/denoland/deno" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">v2.9.2</span>
+            <span class="release-date">2026-07-08</span>
+            <a href="https://github.com/denoland/deno/releases/tag/v2.9.2" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/pytorch/pytorch">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/pytorch/pytorch" target="_blank" class="card-title">pytorch/pytorch</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: v2.13.0</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 101,782</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <p>定位：PyTorch是一个提供GPU加速张量计算和基于自动微分系统的动态神经网络的Python库，旨在简化深度学习模型的开发与研究。
+亮点：动态计算图（tape-based autograd）支持实时调整网络结构、强大的GPU张量运算（类似NumPy但加速）、Python优先的直观编程体验与无缝扩展
+场景：适用于深度学习研究者、数据科学家和工程师进行模型构建、训练与部署，从科研探索到生产环境均可使用
+热度：近期因PyTorch 2.13发布带来FlexAttention等显著性能优化（Apple Silicon上稀疏模式加速达12倍），以及持续活跃的社区生态而备受关注</p>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/pytorch/pytorch" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">v2.13.0</span>
+            <span class="release-date">2026-07-08</span>
+            <a href="https://github.com/pytorch/pytorch/releases/tag/v2.13.0" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/angular/angular">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/angular/angular" target="_blank" class="card-title">angular/angular</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: v22.1.0-next.5</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3178c6"></span>
+                <span class="lang-name">TypeScript</span>
+                <span class="stars">&#9733; 100,623</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">Angular是一个由Google维护的前端开发平台，专为构建高性能的移动和桌面Web应用而设计，解决大型应用的结构化开发、模块化组织和性能优化问题。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">强类型TypeScript支持与完整类型安全、内置依赖注入系统和RxJS响应式编程、独立组件与信号（Signals）简化变更检测</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">适合企业级团队开发中大型单页应用（SPA），如后台管理系统、电商平台、金融工具，以及需要长期维护和严格类型检查的项目。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">Angular 18+引入信号（Signals）作为新的响应式原语，显著提升运行时性能并降低学习曲线；独立组件成为默认模式，与现代Web标准对齐，加上持续迭代的CLI工具链，吸引了新旧开发者回归。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/angular/angular" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">v22.1.0-next.5</span>
+            <span class="release-date">2026-07-08</span>
+            <a href="https://github.com/angular/angular/releases/tag/v22.1.0-next.5" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+
+    <div class="card" data-source="releases" data-bookmark-key="https://github.com/openai/openai-python">
+        <div class="card-header">
+            <div class="card-title-row">
+                <a href="https://github.com/openai/openai-python" target="_blank" class="card-title">openai/openai-python</a>
+                <div class="card-actions">
+                    <button class="mark-button" type="button" aria-label="标记这个项目" aria-pressed="false" title="标记这个项目">
+                        <span class="mark-icon">☆</span>
+                        <span class="mark-text">标记</span>
+                    </button>
+                    <span class="source-badge" style="background-color:#6e40c9">新版本发布: v2.45.0</span>
+                </div>
+            </div>
+            <div class="card-meta">
+                <span class="lang-dot" style="background-color:#3572A5"></span>
+                <span class="lang-name">Python</span>
+                <span class="stars">&#9733; 31,268</span>
+            </div>
+        </div>
+        <div class="card-body">
+            
+            <div class="summary-section">
+                <span class="section-label" style="color:#6e40c9;border-color:#6e40c9">定位</span>
+                <span class="section-content">OpenAI REST API的官方Python客户端库，为Python 3.9+应用提供便捷、类型安全的API调用接口。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#cf222e;border-color:#cf222e">亮点</span>
+                <span class="section-content">完整类型定义（请求参数和响应字段）、同步与异步双模式（基于httpx）、自动从OpenAPI规范生成。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#0969da;border-color:#0969da">场景</span>
+                <span class="section-content">Python开发者、AI应用构建者，用于集成GPT等模型（Chat Completions或Responses API）。</span>
+            </div>
+            <div class="summary-section">
+                <span class="section-label" style="color:#bc4c00;border-color:#bc4c00">热度</span>
+                <span class="section-content">因OpenAI模型频繁更新（如最新Release支持gpt-5.6-sol）且作为官方工具被全球开发者广泛使用，Star数突破3.1万。</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="https://github.com/openai/openai-python" target="_blank" class="repo-link">&#128279; 查看项目</a>
+            
+        </div>
+        
+        <div class="release-info">
+            <span class="release-tag">v2.45.0</span>
+            <span class="release-date">2026-07-09</span>
+            <a href="https://github.com/openai/openai-python/releases/tag/v2.45.0" target="_blank" class="release-link">Release Notes</a>
+        </div>
+    </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>由 GitHub Weekly Report 系统自动生成 | 数据来源于 GitHub / HackerNews / Reddit</p>
+        </footer>
+    </div>
+    <script>
+        (function () {
+            const storageKey = "github-weekly-marked-projects";
+
+            function readMarked() {
+                try {
+                    return new Set(JSON.parse(localStorage.getItem(storageKey) || "[]"));
+                } catch (error) {
+                    return new Set();
+                }
+            }
+
+            function writeMarked(marked) {
+                localStorage.setItem(storageKey, JSON.stringify(Array.from(marked)));
+            }
+
+            function updateCard(card, button, isMarked) {
+                card.classList.toggle("is-marked", isMarked);
+                button.setAttribute("aria-pressed", isMarked ? "true" : "false");
+                button.title = isMarked ? "取消标记" : "标记这个项目";
+                button.setAttribute("aria-label", isMarked ? "取消标记这个项目" : "标记这个项目");
+                button.querySelector(".mark-icon").textContent = isMarked ? "★" : "☆";
+                button.querySelector(".mark-text").textContent = isMarked ? "已标记" : "标记";
+            }
+
+            const marked = readMarked();
+            document.querySelectorAll(".card[data-bookmark-key]").forEach((card) => {
+                const key = card.dataset.bookmarkKey;
+                const button = card.querySelector(".mark-button");
+                if (!key || !button) {
+                    return;
+                }
+
+                updateCard(card, button, marked.has(key));
+
+                button.addEventListener("click", () => {
+                    const nextMarked = !marked.has(key);
+                    if (nextMarked) {
+                        marked.add(key);
+                    } else {
+                        marked.delete(key);
+                    }
+                    writeMarked(marked);
+                    updateCard(card, button, nextMarked);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
