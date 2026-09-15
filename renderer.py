@@ -41,6 +41,9 @@ def _escape_html(text):
 
 def _parse_summary_sections(summary):
     """将摘要文本按【小标题】解析为结构化段落"""
+    if not (summary or "").strip():
+        return '<p>暂无摘要</p>'
+
     # 匹配 【xxx】 开头的段落
     pattern = r'【([^】]+)】\s*(.+?)(?=【|$)'
     matches = re.findall(pattern, summary, re.DOTALL)
@@ -91,7 +94,7 @@ def _render_card(project):
     name = _escape_html(project.get("name", ""))
     url = project.get("url", "#")
     url_attr = _escape_html(url)
-    summary = project.get("summary", project.get("description", ""))
+    summary = (project.get("summary") or project.get("description") or "暂无摘要").strip()
     language = _escape_html(project.get("language", ""))
     stars = project.get("stars", 0)
     gained = project.get("gained_stars", 0)

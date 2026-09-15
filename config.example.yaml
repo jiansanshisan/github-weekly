@@ -7,7 +7,7 @@
 deepseek:
   api_key: "YOUR_DEEPSEEK_API_KEY"
   base_url: "https://api.deepseek.com"
-  model: "deepseek-v4-flash"
+  model: "deepseek-flash"
 
 # GitHub Token（可选，不填会有速率限制，建议填上）
 github_token: ""  # 在 https://github.com/settings/tokens 创建

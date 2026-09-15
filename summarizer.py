@@ -1,6 +1,40 @@
 """DeepSeek 摘要生成模块"""
 
+import time
+
 import requests
+
+
+def _fallback_summary(project):
+    """摘要兜底：优先用原始描述，避免生成空白卡片"""
+    return (project.get("description") or "").strip() or "暂无摘要"
+
+
+def _request_summary(payload, headers, base_url, retries=3):
+    """调用 DeepSeek 生成摘要，带重试；返回非空文本，全部失败则抛异常"""
+    last_error = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.post(
+                f"{base_url}/v1/chat/completions",
+                json=payload,
+                headers=headers,
+                timeout=30,
+            )
+            resp.raise_for_status()
+            content = resp.json()["choices"][0]["message"]["content"]
+            summary = (content or "").strip()
+            if not summary:
+                # 200 但内容为空（如触发风控过滤），同样视为失败
+                raise ValueError("API 返回了空内容")
+            return summary
+        except (requests.RequestException, ValueError, KeyError, IndexError) as e:
+            last_error = e
+            if attempt < retries:
+                wait = 2 ** attempt
+                print(f"[Summarizer] 第 {attempt}/{retries} 次请求失败: {e}，{wait}s 后重试")
+                time.sleep(wait)
+    raise last_error
 
 
 def fetch_readme(repo_name, github_token=""):
@@ -34,7 +68,7 @@ def generate_summaries(projects, config):
     if api_key == "YOUR_DEEPSEEK_API_KEY":
         print("[Summarizer] 警告：未配置 DeepSeek API Key，跳过摘要生成")
         for p in projects:
-            p["summary"] = p.get("description", "暂无摘要")
+            p["summary"] = _fallback_summary(p)
         return projects
 
     headers = {
@@ -70,21 +104,15 @@ def generate_summaries(projects, config):
             ],
             "max_tokens": 600,
             "temperature": 0.3,
+            # 新版 deepseek-flash 默认开启 thinking，会耗尽 max_tokens 导致 content 为空
+            "thinking": {"type": "disabled"},
         }
 
         try:
-            resp = requests.post(
-                f"{base_url}/v1/chat/completions",
-                json=payload,
-                headers=headers,
-                timeout=30,
-            )
-            resp.raise_for_status()
-            summary = resp.json()["choices"][0]["message"]["content"].strip()
-            project["summary"] = summary
+            project["summary"] = _request_summary(payload, headers, base_url)
         except Exception as e:
             print(f"[Summarizer] 摘要生成失败 ({project['name']}): {e}")
-            project["summary"] = project.get("description", "暂无摘要")
+            project["summary"] = _fallback_summary(project)
 
     return projects
 
@@ -135,6 +163,7 @@ def generate_overview(projects, config):
         ],
         "max_tokens": 1500,
         "temperature": 0.4,
+        "thinking": {"type": "disabled"},
     }
 
     try:
